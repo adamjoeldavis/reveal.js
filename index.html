@@ -150,21 +150,51 @@
 					<code data-trim>
 						query {
 						  article(id: "1234") {
-						    text
-						    author {
-						      name
-						    }
-						    comments {
-						      text
-						      date
-						      author {
-						        name
-						      }
-						    }
+							text
+							author {
+							  name
+							}
+							comments {
+							  text
+							  date
+							  author {
+								name
+							  }
+							}
 						  }
 						}
 					</code>
 				</pre>
+			</section>
+			<section>
+					<pre class="ggCode">
+						<code data-trim>
+							{
+							  "text": "How to adopt GraphQL and Apollo",
+							  "author": {
+							    "Patrick McGill"
+							  },
+							  "comments": [
+							    {
+							      "text": "Cool article",
+							      "date": 111111111,
+							      "author": {
+							        "name": "Adam Davis"
+							      }
+							    },
+							    ...
+							  ]
+							}
+						</code>
+					</pre>
+			</section>
+			<section>
+				<h3>Apollo</h3>
+				<!-- TODO apollo stuff -->
+			</section>
+			<section>
+				<h3>graphql-java</h3>
+				<!-- TODO stuff -->
 			</section>
 		</section>
 		<section>
