@@ -7,7 +7,7 @@
 	<title>reveal.js</title>
 
 	<link rel="stylesheet" href="css/reveal.css">
-	<link rel="stylesheet" href="css/theme/moon.css">
+	<link rel="stylesheet" href="css/theme/blood.css">
 
 	<!-- Theme used for syntax highlighting of code -->
 	<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -21,7 +21,14 @@
 
 		.small-logo {
 			width: 50% !important;
+		}
 
+		.ggCode {
+			box-shadow: none !important;
+		}
+
+		.ggCode code{
+			max-height: none !important;
 		}
 	</style>
 
@@ -53,15 +60,112 @@
 					<img class="ggImage" data-src="https://media.giphy.com/media/26ufnwz3wDUli7GU0/giphy.gif"/>
 				</p>
 			</section>
-			<section>
-				<img class="ggImage" data-src="/images/apollo+graphql.png"/>
+			<section data-background="#FFFFFF">
+				<img class="ggImage" data-src="images/apollo+graphql.png"/>
 			</section>
 		</section>
 		<section>
 			<section>The Problem</section>
+			<section>
+				<h3>REST at scale</h3>
+				<p class="fragment">Lots of data points</p>
+				<p class="fragment">More importantly, lots of edges</p>
+				<p class="fragment">
+					<!-- TODO swap out this image -->
+					<img class="ggImage small-logo" data-src="images/graph-ours.jpg"/>
+				</p>
+			</section>
+			<section>
+				<img class="ggImage" data-src="https://fthmb.tqn.com/TyqbjFQiJp7rdUopBtPRmvollBI=/768x0/filters:no_upscale():max_bytes(150000):strip_icc()/man-hiding-in-filing-cabinet-reading-document-with-magnifying-glass-656282185-57ed1c6e3df78c690f548372.jpg" />
+			</section>
+			<section>
+				<h3>Enter Ember Data</h3>
+				<img class="ggImage" data-src="https://uploads.goodbits.io/uploads/content_block/thumbnail/77061/8dc7ea04-e698-4469-a9f6-7251aa01368e.png"/>
+			</section>
+			<section>
+				<h3>Pros</h3>
+				<ul>
+					<li>Caching</li>
+					<li>Querying</li>
+					<li>Types... kind of</li>
+				</ul>
+			</section>
+			<section>
+				<h3>Cons</h3>
+				<ul>
+					<li>Network traffic</li>
+					<li>Needs to know about models up front</li>
+					<li>Greedy!</li>
+				</ul>
+			</section>
+			<section>
+				We can do better...
+				<!-- TODO img? -->
+			</section>
 		</section>
 		<section>
 			<section>The Theoretical Solution</section>
+			<section>
+				<h3>GraphQL</h3>
+				<div style="position:relative;">
+					<p class="fragment fade-out" data-fragment-index="0">
+						<img class="ggImage small-logo" data-src="images/graph-ours.jpg"/>
+					</p>
+					<p class="fragment fade-in" style="position:absolute;top:-18px;" data-fragment-index="0">
+						<img class="ggImage small-logo" data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/GraphQL_Logo.svg/2000px-GraphQL_Logo.svg.png"/>
+					</p>
+				</div>
+			</section>
+			<section>
+				<h4>
+					A query language for your API
+				</h4>
+				<pre class="ggCode">
+					<code data-trim >
+						type Person {
+						  name: String
+						  email: String
+						  phoneNumber: String
+						  age: Number
+						  articles: [Article]
+						}
+
+						type Article {
+						  text: String
+						  author: Person
+						  comments: [Post]
+						}
+
+						type Post {
+						  text: String
+						  date: Number
+						  author: Person
+						  article: Article
+						}
+					</code>
+				</pre>
+			</section>
+			<section>
+				<pre class="ggCode">
+					<code data-trim>
+						query {
+						  article(id: "1234") {
+						    text
+						    author {
+						      name
+						    }
+						    comments {
+						      text
+						      date
+						      author {
+						        name
+						      }
+						    }
+						  }
+						}
+					</code>
+				</pre>
+			</section>
 		</section>
 		<section>
 			<section>The Implementation</section>
