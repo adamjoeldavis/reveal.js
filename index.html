@@ -25,6 +25,7 @@
 
 		.ggCode {
 			box-shadow: none !important;
+			margin-top: -10px;
 		}
 
 		.ggCode code{
@@ -45,27 +46,27 @@
 <div class="reveal">
 	<div class="slides">
 		<section>
-			<section>Welcome!</section>
+			<section><h1>Welcome!</h1></section>
 			<section>
-				<p class="fragment">Patrick McGill</p>
-				<p class="fragment">Adam Davis</p>
+				<h2 class="fragment">Patrick McGill</h2>
+				<h2 class="fragment">Adam Davis</h2>
 				<p class="fragment">
 					<img class="ggImage small-logo" data-src="images/greenlight-guru-logo.svg"/>
 				</p>
 				<!-- Sponsors? -->
 			</section>
 			<section>
-				<p>What are we doing here?</p>
+				<h3>What are we doing here?</h3>
 				<p class="fragment">
 					<img class="ggImage" data-src="images/spongebob-list.gif"/>
 				</p>
 			</section>
-			<section data-background="#FFFFFF">
-				<img class="ggImage" data-src="images/apollo+graphql.png"/>
+			<section>
+				<img class="ggImage" data-src="images/apollo+graphql-1.png"/>
 			</section>
 		</section>
 		<section>
-			<section>The Problem</section>
+			<section><h2>The Problem</h2></section>
 			<section>
 				<h3>REST at scale</h3>
 				<p class="fragment">Lots of data points</p>
@@ -98,12 +99,14 @@
 				</ul>
 			</section>
 			<section>
-				We can do better...
-				<!-- TODO img? -->
+				<h3>We can do better...</h3>
+				<p class="fragment">
+					<img class="ggImage" data-src="images/yes-you-can.webp"/>
+				</p>
 			</section>
 		</section>
 		<section>
-			<section>The Theoretical Solution</section>
+			<section><h2>Theoretical Solution</h2></section>
 			<section>
 				<h3>GraphQL</h3>
 				<div style="position:relative;">
@@ -130,6 +133,7 @@
 						}
 
 						type Article {
+						  title: String
 						  text: String
 						  author: Person
 						  comments: [Post]
@@ -145,51 +149,49 @@
 				</pre>
 			</section>
 			<section>
+				<p>Example Query</p>
 				<pre class="ggCode">
 					<code data-trim>
-						query {
-						  article(id: "1234") {
-							text
-							author {
-							  name
-							}
-							comments {
-							  text
-							  date
-							  author {
-								name
-							  }
-							}
-						  }
-						}
+					  query {
+					    article(id: "1234") {
+					      text
+					      author {
+					        name
+					      }
+					      comments {
+					        text
+					        date
+					        author {
+					          name
+					        }
+					      }
+					    }
+					  }
 					</code>
 				</pre>
 			</section>
 			<section>
+				<p>Example Response</p>
 					<pre class="ggCode">
 						<code data-trim>
-							{
-							  "text": "How to adopt GraphQL and Apollo",
-							  "author": {
-							    "name": "Patrick McGill"
-							  },
-							  "comments": [
-							    {
-							      "text": "Cool article",
-							      "date": 111111111,
-							      "author": {
-							        "name": "Adam Davis"
-							      }
-							    },
-							    ...
-							  ]
-							}
+						  {
+						    "text": "How to adopt GraphQL and Apollo",
+						    "author": {
+						      "name": "Patrick McGill"
+						    },
+						    "comments": [
+						      {
+						        "text": "Cool article",
+						        "date": 111111111,
+						        "author": {
+						          "name": "Adam Davis"
+						        }
+						      },
+						      ...
+						    ]
+						  }
 						</code>
 					</pre>
-			</section>
-			<section>
-				<h3>Apollo</h3>
-				<!-- TODO patrick apollo stuff -->
 			</section>
 			<section>
 				<h3>graphql-java</h3>
@@ -203,34 +205,91 @@
 				<h4>Code-first schema generation</h4>
 				<pre class="ggCode">
 					<code data-trim class="java">
-						GraphQLObjectType personType = newObject()
-							.name("Person")
-							.field(newFieldDefinition()
-								.name("name")
-								.type(GraphQLString))
-							.field(newFieldDefinition()
-								.name("email")
-								.type(GraphQLString))
-							.field(newFieldDefinition()
-								.name("phoneNumber")
-								.type(GraphQLString))
-							.field(newFieldDefinition()
-								.name("age")
-								.type(GraphQLInt))
-							.field(newFieldDefinition()
-								.name("articles")
-								.type(new GraphQLList(articleType)
-								.dataFetcher(environment ->
-									loadArticles(environment))
-							.build();
+					GraphQLObjectType personType = newObject()
+					  .name("Person")
+					  .field(newFieldDefinition()
+					    .name("name")
+					    .type(GraphQLString))
+					  .field(newFieldDefinition()
+					    .name("email")
+					    .type(GraphQLString))
+					  .field(newFieldDefinition()
+					    .name("phoneNumber")
+					    .type(GraphQLString))
+					  .field(newFieldDefinition()
+					    .name("age")
+					    .type(GraphQLInt))
+					  .field(newFieldDefinition()
+					    .name("articles")
+					    .type(new GraphQLList(articleType)
+					    .dataFetcher(environment ->
+					      loadArticles(environment))
+					  .build();
 					</code>
 				</pre>
 			</section>
+			<section>
+				<img class="ggImage" data-src="images/apollo-white.svg" />
+			</section>
+				<section>
+					<h4>A fully-featured, production ready GraphQL client</h4>
+					<p class="fragment">Declaratively bind data to your view layer</p>
+					<p class="fragment">Queries, caching, mutations, optimistic UI, subscriptions, pagination, server-side rendering, prefetching, and more.</p>
+				</section>
+				<section>
+					<h4>Simple Setup</h4>
+					<pre class="ggCode">
+						<code data-trim class="javascript">
+						// config/environment.js
+
+						let ENV = {
+						  ...
+						  apollo: {
+						    apiURL: 'https://test.example/graphql',
+						    // this abstracts apollo configuration behind the scenes.
+						    // more complex configuration is doable by overriding methods
+						    // on the provided service.
+						  },
+						  ...
+						}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<pre class="ggCode">
+						<code data-trim class="javascript">
+					    import Route from "@ember/routing/route";
+					    import RouteQueryManager from "ember-apollo-client/mixins/route-query-manager";
+					    import gql from 'graphql-tag';
+						
+					    export default Route.extend(RouteQueryManager, {
+					      model(params) {
+					        let variables = { id: params.id };
+					        return this.apollo.watchQuery({
+					          gql`
+					            query getPersonAndArticles($id: ID!) {
+					              person(personId: $id) {
+					                id
+					                name
+					                articles {
+					                  id
+					                  title
+					                }
+					              }
+					            }
+					          `,
+					          variables
+					        });
+					      }
+					    });
+						</code>
+					</pre>
+				</section>
 		</section>
 		<section>
-			<section>The Implementation</section>
-			<section style="font-size: 2em;" data-background-image="images/mountains.jpg">
-				Where to begin?
+			<section><h2>Implementation</h2></section>
+			<section data-background-image="images/mountains.jpg">
+				<h3 >Where to begin?</h3>
 			</section>
 			<section>
 				<h3>Rewrite from scratch?</h3>
@@ -242,7 +301,7 @@
 				</p>
 			</section>
 			<section>
-				<h3>Incrementally adopt it</h3>
+				<h3>Incremental Adoption</h3>
 				<p class="fragment">
 					You guessed it!
 					<!-- TODO image? -->
@@ -266,8 +325,8 @@
 				<!-- TODO patrick -->
 			</section>
 			<section>
-				<h3>Sounds good...how did it go?</h3>
-				<p>
+				<h3>Sounds good...<br />how did it go?</h3>
+				<p class="fragment">
 					Great!
 					<!-- TODO image -->
 				</p>
@@ -294,9 +353,9 @@
 			</section>
 		</section>
 		<section>
-			<section>Where do we go from here?</section>
+			<section><h2>Where do we go from here?</h2></section>
 			<section>
-				<span>Good-bye, Ember-Data</span><span class="fragment"> (eventually)</span>
+				<h3>Good-bye, Ember-Data<span class="fragment"> (eventually)</span></h3>
 				<!-- TODO "yay" image -->
 			</section>
 			<section>
