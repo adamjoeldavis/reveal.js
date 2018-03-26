@@ -126,7 +126,7 @@
 						  name: String
 						  email: String
 						  phoneNumber: String
-						  age: Number
+						  age: Int
 						  articles: [Article]
 						}
 
@@ -138,7 +138,7 @@
 
 						type Post {
 						  text: String
-						  date: Number
+						  date: Long
 						  author: Person
 						  article: Article
 						}
@@ -172,7 +172,7 @@
 							{
 							  "text": "How to adopt GraphQL and Apollo",
 							  "author": {
-							    "Patrick McGill"
+							    "name": "Patrick McGill"
 							  },
 							  "comments": [
 							    {
@@ -194,7 +194,38 @@
 			</section>
 			<section>
 				<h3>graphql-java</h3>
-				<!-- TODO adam stuff -->
+				<img class="ggImage" data-src="https://avatars1.githubusercontent.com/u/14289921?s=200&v=4"/>
+				<ul class="fragment" data-fragment-index="0">
+					<li>Based on JavaScript reference implementation</li>
+					<li>Sensible defaults, highly customizable</li>
+				</ul>
+			</section>
+			<section>
+				<h4>Code-first schema generation</h4>
+				<pre class="ggCode">
+					<code data-trim class="java">
+						GraphQLObjectType personType = newObject()
+							.name("Person")
+							.field(newFieldDefinition()
+								.name("name")
+								.type(GraphQLString))
+							.field(newFieldDefinition()
+								.name("email")
+								.type(GraphQLString))
+							.field(newFieldDefinition()
+								.name("phoneNumber")
+								.type(GraphQLString))
+							.field(newFieldDefinition()
+								.name("age")
+								.type(GraphQLInt))
+							.field(newFieldDefinition()
+								.name("articles")
+								.type(new GraphQLList(articleType)
+								.dataFetcher(environment ->
+									loadArticles(environment))
+							.build();
+					</code>
+				</pre>
 			</section>
 		</section>
 		<section>
@@ -220,10 +251,17 @@
 			</section>
 			<section>
 				<h3>First things first</h3>
-				<p class="fragment">Back-end support</p>
-				<!-- TODO adam diagram of re-routing resources -->
+				<p class="fragment" data-fragment-index="0">Back-end support</p>
+				<img class="ggImage fragment" data-fragment-index="0" data-src="https://i.pinimg.com/736x/40/90/f2/4090f2fe2070562f154807cf82bddeeb--dog-wheelchair-wheelchairs.jpg" />
 			</section>
-			<!-- TODO adam explain how/why I don't need to re-write the ORM -->
+			<section>
+				<ul>
+					<li>Disconnected from ORM</li>
+					<li>Cherry-pick supported resources as needed</li>
+					<li>Mutations - single source of truth for business logic</li>
+				</ul>
+				<img class="ggImage fragment" data-src="images/mutations-redirect.svg" />
+			</section>
 			<section>
 				<h3>On to the front-end...</h3>
 				<!-- TODO patrick -->
@@ -251,8 +289,9 @@
 				</p>
 			</section>
 			<section>
-				<p>Permissions...</p>
-				<!-- TODO adam permissions gotchas -->
+				<h4>Authorization</h4>
+				<p class="fragment">Permissions exist at the resource level</p>
+				<p class="fragment">Separate micro-service - lots of network traffic!</p>
 			</section>
 		</section>
 		<section>
@@ -272,11 +311,11 @@
 				</ul>
 			</section>
 			<section>
-				<h3>Phase out standard REST resources</h3>
+				<h4>Phase out standard REST resources</h4>
 				<p>
 					No more resource re-routing
-					<!-- TODO adam diagram minus resources -->
 				</p>
+				<img class="ggImage fragment" data-src="images/mutations-noredirect.svg" />
 			</section>
 			<section>
 				<h3>Performance optimizations</h3>
