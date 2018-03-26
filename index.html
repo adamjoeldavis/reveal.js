@@ -175,20 +175,24 @@
 					<pre class="ggCode">
 						<code data-trim>
 						  {
-						    "text": "How to adopt GraphQL and Apollo",
-						    "author": {
-						      "name": "Patrick McGill"
-						    },
-						    "comments": [
-						      {
-						        "text": "Cool article",
-						        "date": 111111111,
+						    "data": {
+						      "article": {
+						        "text": "How to adopt GraphQL and Apollo",
 						        "author": {
-						          "name": "Adam Davis"
-						        }
-						      },
-						      ...
-						    ]
+						          "name": "Patrick McGill"
+						        },
+						        "comments": [
+						          {
+						            "text": "Cool article",
+						            "date": 111111111,
+						            "author": {
+						              "name": "Adam Davis"
+						            }
+						          },
+						          ...
+						        ]
+						      }
+						    }
 						  }
 						</code>
 					</pre>
@@ -322,8 +326,64 @@
 				<img class="ggImage fragment" data-src="images/mutations-redirect.svg" />
 			</section>
 			<section>
-				<h3>On to the front-end...</h3>
-				<!-- TODO patrick -->
+				<h3>Front End Challenges</h3>
+			</section>
+			<section>
+				<h4>The elephant in the room... </h4>
+				<img class="fragment ggImage" data-src="images/ember-data-logo.png"/>
+			</section>
+			<section>
+				<h4>How do we keep both data clients happy?</h4>
+				<p class="fragment">Keep their caches up to date</p>
+			</section>
+			<section>
+				<h4>Apollo => Ember-Data</h4>
+				<pre class="ggCode">
+					<code data-trim class="javascript">
+					...
+					updatePerson(newPerson) {
+					  this.apollo.mutate({
+					    mutation,
+					    variables: { newPerson }
+					  },
+					  // update: developer facing API for making
+					  // fine-grained manual updates to Apollo's cache
+					  update(proxy, { data }) {
+					    // we can opportunistically update ember-data
+					    // by calling this.store.pushPayload here
+					  })
+					},
+					...
+					</code>
+				</pre>
+			</section>
+			<section>
+				<h4>Ember-Data => Apollo</h4>
+				<pre class="ggCode">
+					<code data-trim class="javascript">
+					...
+					updatePlace: async function(placeId, newPlaceTitle) {
+					  const place = await this.store.find('place', placeId);
+					  place.set('title', newPlaceTitle);
+					  await place.save();
+					  
+					  // inform apollo of new data by writing
+					  // writing directly to the cache
+					  this.apollo.writeFragment({
+					    id: placeId,
+					    fragment: gql`
+					      fragment newPlaceTitle on Place {
+					        title
+					      }
+					    `,
+					    data: {
+					      title: newPlaceTitle
+					    }
+					  });
+					},
+					...
+					</code>
+				</pre>
 			</section>
 			<section>
 				<h3>Sounds good...<br />how did it go?</h3>
@@ -336,16 +396,19 @@
 				<h3>Benefits</h3>
 				<ul>
 					<li>Implemented for subset of features - line between GraphQL/Ember-data responsibilities</li>
-					<li>Encourages component-first development <!-- TODO patrick code snippet of co-located query --> </li>
+					<li>Encourages component-first development through use of co-location</li>
 					<li>Allows us to think of performance at the field level instead of model level</li>
 				</ul>
 			</section>
 			<section>
 				<h3>Gotchas</h3>
-				<p class="fragment">
+				<p>
 					The developer's relationship with the cache is substantially different than with Ember-data
-					<!-- TODO patrick "manual vs. automatic" picture -->
 				</p>
+				<p class="fragment">
+					Analogous to driving a manual vs an automatic
+				</p>
+				<img class="fragment ggImage" src="images/what-gear-is-it.jpg" />
 			</section>
 			<section>
 				<h4>Authorization</h4>
