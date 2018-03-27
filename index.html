@@ -108,7 +108,7 @@
 		<section>
 			<section><h2>Theoretical Solution</h2></section>
 			<section>
-				<h3>GraphQL</h3>
+				<h3 class="fragment fade-in" data-fragment-index="0">GraphQL</h3>
 				<div style="position:relative;">
 					<p class="fragment fade-out" data-fragment-index="0">
 						<img class="ggImage small-logo" data-src="images/graph-ours-2.svg"/>
@@ -241,7 +241,8 @@
 					<p class="fragment">Queries, caching, mutations, optimistic UI, subscriptions, pagination, server-side rendering, prefetching, and more.</p>
 				</section>
 				<section>
-					<h4>Simple Setup</h4>
+					<h4>Simple Setup (Ember CLI)</h4>
+					<p>ember-apollo-client</p>
 					<pre class="ggCode">
 						<code data-trim class="javascript">
 						// config/environment.js
@@ -386,21 +387,6 @@
 				</pre>
 			</section>
 			<section>
-				<h3>Sounds good...<br />how did it go?</h3>
-				<p class="fragment">
-					Great!
-					<!-- TODO image -->
-				</p>
-			</section>
-			<section>
-				<h3>Benefits</h3>
-				<ul>
-					<li>Implemented for subset of features - line between GraphQL/Ember-data responsibilities</li>
-					<li>Encourages component-first development through use of co-location</li>
-					<li>Allows us to think of performance at the field level instead of model level</li>
-				</ul>
-			</section>
-			<section>
 				<h3>Gotchas</h3>
 				<p>
 					The developer's relationship with the cache is substantially different than with Ember-data
@@ -411,10 +397,17 @@
 				<img class="fragment ggImage" src="images/what-gear-is-it.jpg" />
 			</section>
 			<section>
-				<h4>Authorization</h4>
-				<p class="fragment">Permissions exist at the resource level</p>
-				<p class="fragment">Separate micro-service - lots of network traffic!</p>
+				<h3>Gotchas (cont.)</h3>
+				<p>Required us to rethink authorization</p>
+				<p>Separate micro-service - lots of network traffic!</p>
 			</section>
+			<section>
+					<h3>Benefits</h3>
+					<ul>
+						<li>Encourages component-first development through use of co-location</li>
+						<li>Allows us to think of performance at the field level instead of model level</li>
+					</ul>
+				</section>
 		</section>
 		<section>
 			<section><h2>Where do we go from here?</h2></section>
@@ -428,41 +421,58 @@
 					Multiple back-end data sources, funneled through a single schema
 				</p>
 				<ul>
-					<li>Business logic, elasticSearch, auth services, integrations, etc.</li>
-					<li>Schema stitching</li>
+					<li>Business logic</li>
+					<li>elasticSearch</li>
+					<li>auth services</li>
+					<li>integrations</li>
 				</ul>
 			</section>
 			<section>
-				<h4>Phase out standard REST resources</h4>
+				<h3>Phase out standard REST resources</h3>
 				<p>
 					No more resource re-routing
 				</p>
 				<img class="ggImage fragment" data-src="images/mutations-noredirect.svg" />
 			</section>
 			<section>
-				<h3>Performance optimizations</h3>
-				<p>
-					Persistent queries
-					<!-- TODO patrick apollo-engine -->
-				</p>
-				<p>
-					Fine-grained analytics at the field level, error tracking, etc.
-				</p>
+				<h3>Subscriptions</h3>
+				<p>Low-latency updates via real-time transfer protocol (e.g. websockets)</p>
+				<pre class="fragment ggCode">
+					<code data-trim>
+						  subscription onPostAdded($articleId: ID!) {
+						    postAdded(articleId: $articleId) {
+						      id
+						      msg
+						    }
+						  }	
+					</code>
+				</pre>
 			</section>
 			<section>
-				Subscriptions
-				<!-- TODO patrick subscriptions -->
+				<h3>Fine-grained Server-side Analytics</h3>
+				<ul>
+					<li>Execution time</li>
+					<li>Usage Statistics</li>
+					<li>Error Reporting</li>
+				</ul>
+				<p>can all be accomplished at the field level</p>
 			</section>
+			<section>
+				<h3>Apollo Engine</h3>
+				<p>Self hosted proxy that aggregates data and sends to Apollo's cloud analytics service</p>
+				<img class="ggImage fragment" data-src="images/engine-architecture.svg" />
+			</section>
+		
 		</section>
 		<section>
 			<section>
-				Thanks!
+				<h1>Thanks!</h1>
 			</section>
 			<section>
-				We're hiring
-				<p>
+				<h2>We're hiring</h2>
+				<h3>
 					<a href="http://www.greenlight.guru/careers">greenlight.guru/careers</a>
-				</p>
+				</h3>
 			</section>
 		</section>
 	</div>
