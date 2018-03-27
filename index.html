@@ -233,6 +233,21 @@
 				</pre>
 			</section>
 			<section>
+				<h4>Executing a Query</h4>
+				<pre class="ggCode">
+					<code data-trim class="java">
+						ExecutionResult executionResult =
+						  graphql.execute(query, context, variables);
+
+						if (!executionResult.getErrors().isEmpty()) {
+						  throw new Exception("Error executing query");
+						}
+
+						return executionResult;
+					</code>
+				</pre>
+			</section>
+			<section>
 				<img class="ggImage" data-src="images/apollo-white.svg" />
 			</section>
 				<section>
