@@ -346,14 +346,14 @@
 					updatePerson(newPerson) {
 					  this.apollo.mutate({
 					    mutation,
-					    variables: { newPerson }
-					  },
-					  // update: developer facing API for making
-					  // fine-grained manual updates to Apollo's cache
-					  update(proxy, { data }) {
-					    // we can opportunistically update ember-data
-					    // by calling this.store.pushPayload here
-					  })
+					    variables: { newPerson },
+					    // update: developer facing API for making
+					    // fine-grained manual updates to Apollo's cache
+					    update(proxy, { data }) {
+           // we can opportunistically update ember-data
+           // by calling this.store.pushPayload here
+					    })
+					  });
 					},
 					...
 					</code>
